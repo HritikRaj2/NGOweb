@@ -11,12 +11,22 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === 'development' &&
-    componentTagger(),
+    mode === "development" && componentTagger(),
   ].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  // ✅ Add this for SPA routing on Vercel
+  base: "/", // ensure root deployment
+  build: {
+    outDir: "dist",
+    rollupOptions: {
+      // fallback to index.html for all routes
+      input: {
+        main: path.resolve(__dirname, "index.html"),
+      },
     },
   },
 }));
